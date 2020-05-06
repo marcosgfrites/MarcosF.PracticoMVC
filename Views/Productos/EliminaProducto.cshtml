@@ -70,11 +70,20 @@
                                 @Html.LabelFor(model => model.IdMarca, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                <select name="IdMarca" id="IdMarca" class="form-control">
-                                    <option value="">SELECCIONE UNA MARCA...</option>
-                                    @foreach (var marca in ViewBag.Lista)
+                                <select name="IdMarca" id="IdMarca" class="form-control" readonly="readonly">
+                                    @if (Model.Codigo <= 0 || Model.PrecioUnitario == 0)
                                     {
-                                        <option value="@marca.Id">@marca.Nombre</option>
+                                        <option value="">AQUÍ DEBE AUTOCOMPLETARSE LA MARCA DE PRODUCTO...</option>
+                                    }
+                                    else
+                                    {
+                                        foreach (var marca in ViewBag.Lista)
+                                        {
+                                            if (Model.IdMarca == marca.Id)
+                                            {
+                                                <option value="@marca.Id">@marca.Nombre</option>
+                                            }
+                                        }
                                     }
                                 </select>
                                 @Html.ValidationMessageFor(model => model.IdMarca, "", new { @class = "text-danger" })
@@ -86,10 +95,25 @@
                                 @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                <select name="Activo" id="Activo" class="form-control">
-                                    <option value="">SELECCIONE SU ESTADO...</option>
-                                    <option value="1">HABILITADO</option>
-                                    <option value="0">DESHABILITADO</option>
+                                <select name="Activo" id="Activo" class="form-control" readonly="readonly">
+                                    @if (Model.Codigo == 0 || Model.PrecioUnitario == 0)
+                                    {
+                                        <option value="">AQUÍ DEBE AUTOCOMPLETARSE EL ESTADO DE PRODUCTO...</option>
+                                    }
+                                    else
+                                    {
+                                        if (Model.Activo == 1)
+                                        {
+                                            <option value="1">HABILITADO</option>
+                                        }
+                                        else
+                                        {
+                                            if (Model.Activo == 0)
+                                            {
+                                                <option value="0">DESHABILITADO</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                                 @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
                             </div>

@@ -72,5 +72,20 @@ namespace AccesoDatos
             listado = con.Query<Productos>("SELECT TOP 1 Codigo,Nombre,Descripcion,IdMarca,PrecioUnitario,Activo,UrlImange FROM Productos ORDER BY PrecioUnitario DESC").ToList();
             return listado;
         }
+
+        public bool DeleteProducto(int Codigo) //elimina un producto de acuerdo al numero de Codigo
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int baja = con.Execute("DELETE FROM Productos WHERE Codigo=@Codigo",
+                new { Codigo = Codigo });
+            if (baja > 0) //si la cantidad es mayor a 0, significa que se eliminó
+            {
+                return true; //si se eliminó, devuelve true
+            }
+            else
+            {
+                return false; //si no se pudo eliminar, devuelve false
+            }
+        }
     }
 }

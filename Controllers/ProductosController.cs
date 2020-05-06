@@ -164,5 +164,78 @@ namespace PracticoMVC.Controllers
             return View(model);
         }
 
+        // valido el formulario para proceder con la eliminación
+        [HttpPost]
+        public ActionResult EliminaProducto(ProductoModelo modelo)
+        {
+            int exito = 2; // es el valor cuando el modelo no es valido
+
+            MarcasQuerys mq = new MarcasQuerys();
+
+            if (ModelState.IsValid) //si se cumplen todas las validaciones
+            {
+                try
+                {
+                    ProductosQuerys pq = new ProductosQuerys();
+                    Productos entidad = new Productos();
+                    entidad.Codigo = modelo.Codigo;
+                    var obj = pq.DeleteProducto(entidad.Codigo);
+                    if (obj == true)
+                    {
+                        exito = 1;
+                        ViewBag.Class = "alert alert-success";
+                        ViewBag.Message = "Producto eliminado correctamente!";
+                    }
+                    else //si no se pudo eliminar, el error está en el método o la conexión a la DB
+                    {
+                        exito = 0;
+                        ViewBag.Class = "alert alert-danger";
+                        ViewBag.Message = "Oops! Algo ha ocurrido!";
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            //manejo la vista, según el valor de la variable exito
+            if (exito == 1)
+            {
+                ModelState.Clear();
+
+                List<Marcas> marcas = new List<Marcas>();
+                marcas = mq.GetMarcas();
+                ViewBag.Lista = marcas;
+
+                return View();
+            }
+            else
+            {
+                if (exito == 0)
+                {
+                    ModelState.Clear();
+
+                    List<Marcas> marcas = new List<Marcas>();
+                    marcas = mq.GetMarcas();
+                    ViewBag.Lista = marcas;
+
+                    return View();
+                }
+                else
+                {
+                    List<Marcas> marcas = new List<Marcas>();
+                    marcas = mq.GetMarcas();
+                    ViewBag.Lista = marcas;
+
+                    ViewBag.Class = "alert alert-warning";
+                    ViewBag.Message = "Faltan datos por ingresar! Controle todos los campos que son obligatorios.";
+
+                    return View(modelo);
+                }
+            }
+        }
+
     }
 }

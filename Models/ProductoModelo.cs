@@ -4,11 +4,16 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace PracticoMVC.Models
 {
     public class ProductoModelo
     {
+        private const int V = 0;
+        private const int V1 = 1;
+
         public int Codigo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
@@ -34,7 +39,7 @@ namespace PracticoMVC.Models
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DisplayName("Estado")]
         public int Activo { get; set; }
-        
+
         [DisplayName("URL de Imagen")]
         public string UrlImange { get; set; }
     }

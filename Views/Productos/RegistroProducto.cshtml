@@ -5,113 +5,113 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row">
-        <div class="col-lg-12">
-            @if (ViewBag.Message != null)
-            {
-                <div class="row" style="margin-top:2%;">
-                    <div class="col-md-8">
-                        <div class="@ViewBag.Class" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            @ViewBag.Message
-                        </div>
+<div class="row">
+    <div class="col-lg-12">
+        @if (ViewBag.Message != null)
+        {
+            <div class="row" style="margin-top:2%;">
+                <div class="col-md-8">
+                    <div class="@ViewBag.Class" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        @ViewBag.Message
                     </div>
                 </div>
-            }
-            <div class="row">
-                <div class="col-lg-12">
-                    <button class="btn btn-primary btn-warning" title="Volver atrás" style="position: absolute; right: 0;" onclick='window.location="@Url.Action("ConsultaProducto","Productos")"' type="button"><i class="fas fa-arrow-alt-circle-left"></i></button>
-                    <br />
-                    <br />
-                </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <h4> Registro de Productos </h4>
-                </div>
-                <div class="card-body">
-                    @using (Html.BeginForm("RegistroProducto", "Productos", FormMethod.Post))
-                    {
-                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                            <br />
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-control-label" })
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese un nombre de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
-                                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-                                </div>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-warning" title="Volver atrás" style="position: absolute; right: 0;" onclick='window.location="@Url.Action("ConsultaProducto","Productos")"' type="button"><i class="fas fa-arrow-alt-circle-left"></i></button>
+                <br />
+                <br />
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4> Registro de Productos </h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("RegistroProducto", "Productos", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-control-label" })
                             </div>
-                            <br />
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-control-label" })
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese una descripción de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
-                                    @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
-                                </div>
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese un nombre de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                             </div>
-                            <br />
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    @Html.LabelFor(model => model.IdMarca, htmlAttributes: new { @class = "form-control-label" })
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <select name="IdMarca" id="IdMarca" class="form-control">
-                                        <option value="">SELECCIONE UNA MARCA...</option>
-                                        @foreach (var marca in ViewBag.Lista)
-                                        {
-                                            <option value="@marca.Id">@marca.Nombre</option>
-                                        }
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.IdMarca, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-control-label" })
                             </div>
-                            <br />
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "form-control-label" })
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    <select name="Activo" id="Activo" class="form-control">
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese una descripción de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.IdMarca, htmlAttributes: new { @class = "form-control-label" })
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <select name="IdMarca" id="IdMarca" class="form-control">
+                                    <option value="">SELECCIONE UNA MARCA...</option>
+                                    @foreach (var marca in ViewBag.Lista)
+                                    {
+                                        <option value="@marca.Id">@marca.Nombre</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.IdMarca, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "form-control-label" })
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <select name="Activo" id="Activo" class="form-control">
                                         <option value="">SELECCIONE SU ESTADO...</option>
                                         <option value="1">HABILITADO</option>
                                         <option value="0">DESHABILITADO</option>
-                                    </select>
-                                    @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
-                                </div>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.Activo, "", new { @class = "text-danger" })
                             </div>
-                            <br />
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    @Html.LabelFor(model => model.PrecioUnitario, htmlAttributes: new { @class = "form-control-label" })
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    @Html.EditorFor(model => model.PrecioUnitario, new { htmlAttributes = new { @type ="number", @class = "form-control", @placeholder = "Ingrese el precio unitario de producto (no use decimales)...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
-                                    @Html.ValidationMessageFor(model => model.PrecioUnitario, "", new { @class = "text-danger" })
-                                </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.PrecioUnitario, htmlAttributes: new { @class = "form-control-label" })
                             </div>
-                            <br />
-                            <div class="row form-group">
-                                <div class="col col-md-3">
-                                    @Html.LabelFor(model => model.UrlImange, htmlAttributes: new { @class = "form-control-label" })
-                                </div>
-                                <div class="col-12 col-md-9">
-                                    @Html.EditorFor(model => model.UrlImange, new { htmlAttributes = new { @type = "url", @class = "form-control", @placeholder = "Ingrese la URL de imagen de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
-                                </div>
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.PrecioUnitario, new { htmlAttributes = new { @type = "number", @class = "form-control", @placeholder = "Ingrese el precio unitario de producto (no use decimales)...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.ValidationMessageFor(model => model.PrecioUnitario, "", new { @class = "text-danger" })
                             </div>
-                            <br />
-                            <div class="row form-group">
-                                <div class="col-lg-12">
-                                    <input type="submit" style="margin-left:45%" class="btn btn-primary btn-success" name="Registrar" id="Registrar" value="Registrar" />
-                                </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.UrlImange, htmlAttributes: new { @class = "form-control-label" })
                             </div>
-                        </form>
-                    }
-                </div>
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.UrlImange, new { htmlAttributes = new { @type = "url", @class = "form-control", @placeholder = "Ingrese la URL de imagen de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <input type="submit" style="margin-left:45%" class="btn btn-primary btn-success" name="Registrar" id="Registrar" value="Registrar" />
+                            </div>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
     </div>
+</div>
