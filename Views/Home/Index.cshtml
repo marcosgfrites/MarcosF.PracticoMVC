@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+
+<div class="row m-t-25">
+    <div class="col-sm-6 col-lg-6">
+        <div class="overview-item overview-item--c1">
+            <div class="overview__inner">
+                <div class="overview-box clearfix">
+                    <div class="icon">
+                        <i class="zmdi zmdi-alert-triangle"></i>
+                    </div>
+                    <div class="text">
+                        <h2>Producto Más Costoso</h2>
+                        <ul style="color:white">
+                            @foreach (var prodCaro in ViewBag.MayorPrecio)
+                            {
+                                <li><span>Nombre:</span> @prodCaro.Nombre</li>
+                                <li><span>Descripción:</span> @prodCaro.Descripcion</li>
+                                <li><span>Precio Unitario:</span> $ @prodCaro.PrecioUnitario</li>
+                                foreach (var marca in ViewBag.ListaMarcas)
+                                {
+                                    if (prodCaro.IdMarca == marca.Id)
+                                    {
+                                        <li><span>Marca:</span> @marca.Nombre</li>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="overview-chart">
+                    <canvas id="widgetChart1"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        <div class="overview-item overview-item--c2">
+            <div class="overview__inner">
+                <div class="overview-box clearfix">
+                    <div class="icon">
+                        <i class="zmdi zmdi-shopping-cart"></i>
+                    </div>
+                    <div class="text">
+                        <h2>388,688</h2>
+                        <span>items solid</span>
+                    </div>
+                </div>
+                <div class="overview-chart">
+                    <canvas id="widgetChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        <div class="overview-item overview-item--c3">
+            <div class="overview__inner">
+                <div class="overview-box clearfix">
+                    <div class="icon">
+                        <i class="zmdi zmdi-calendar-note"></i>
+                    </div>
+                    <div class="text">
+                        <table style="color:white">
+                            <thead>
+                                <h2>Productos Nuevos</h2>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td><span>Producto</span></td>
+                                    <td><span>Marca</span></td>
+                                    <td><span>Precio</span></td>
+                                </tr>
+                                @foreach (var nuevos in ViewBag.Novedades)
+                                {
+                                <tr>
+                                    <td>@nuevos.Nombre</td>
+                                        @foreach (var marca in ViewBag.ListaMarcas)
+                                        {
+                                            if (nuevos.IdMarca == marca.Id)
+                                            {
+                                                <td>@marca.Nombre</td>
+                                            }
+                                        }
+                                    <td>$ @nuevos.PrecioUnitario</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="overview-chart">
+                    <canvas id="widgetChart3"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        <div class="overview-item overview-item--c4">
+            <div class="overview__inner">
+                <div class="overview-box clearfix">
+                    <div class="icon">
+                        <i class="zmdi zmdi-money"></i>
+                    </div>
+                    <div class="text">
+                        <h2>$1,060,386</h2>
+                        <span>total earnings</span>
+                    </div>
+                </div>
+                <div class="overview-chart">
+                    <canvas id="widgetChart4"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

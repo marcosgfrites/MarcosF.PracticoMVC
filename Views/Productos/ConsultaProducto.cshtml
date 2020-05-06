@@ -1,0 +1,79 @@
+﻿@{int fila = 1; }
+
+@{
+    ViewBag.Title = "Consulta de Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .miActionLink:hover {
+        color: white
+    }
+
+    .miActionLink {
+        color: white
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <button class="btn btn-primary btn-success" title="Ingresar un elemento nuevo" style="position: absolute; right: 0;" type="button"><i class="fas fa-newspaper"></i> @Html.ActionLink("Nuevo", "RegistroProducto", "Productos", new { @class = "miActionLink" }) </button>
+        <br />
+        <div class="table-responsive">
+            <h4> Listado de Productos </h4>
+            <hr />
+            <table class="table table-borderless table-striped table-earning">
+                <thead>
+                    <tr style="text-align: center;">
+                        <td> <b>#</b> </td>
+                        <td> <b>Código</b> </td>
+                        <td> <b>Nombre</b> </td>
+                        <td> <b>Descripción</b> </td>
+                        <td> <b>Marca</b> </td>
+                        <td> <b>Precio Unitario</b> </td>
+                        <td> <b>Imagen</b> </td>
+                        <td> <b>Acciones</b> </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var prod in ViewBag.Lista)
+                    {
+                        <tr>
+                            <td>@fila </td>
+                            <td>@prod.Codigo </td>
+                            <td>@prod.Nombre </td>
+                            <td>@prod.Descripcion </td>
+                            @foreach (var marca in ViewBag.ListaMarcas)
+                            {
+                                if (prod.IdMarca == marca.Id)
+                                {
+                                    <td>@marca.Nombre</td>
+                                }
+                            }
+                            <td>$ @prod.PrecioUnitario </td>
+                            <td><img align="middle" style="width:auto;height:auto" src="@prod.UrlImange" alt="@prod.Nombre"></td>
+                            <td>
+                                <button title="Editar" class="btn btn-primary btn-info" onclick='window.location="@Url.Action("EditaProducto","Productos",new { codigo = prod.Codigo })"' type="button" name="Editar" id="Editar"><i class="fas fa-edit"></i></button>
+                                <button title="Eliminar" class="btn btn-primary btn-danger" onclick='window.location="@Url.Action("EliminaProducto","Productos",new { codigo = prod.Codigo })"' type="button" name="Eliminar" id="Elimiar"><i class="fas fa-crosshairs"></i></button>
+                            </td>
+                        </tr>
+                        fila++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <button class="btn btn-primary btn-warning" title="Ir Hacia Arriba" style="position: absolute; right: 0;" type="button" onclick="topFunction()"><i class="fas fa-arrow-alt-circle-up"></i></button>
+    </div>
+</div>
+
+<script>
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>

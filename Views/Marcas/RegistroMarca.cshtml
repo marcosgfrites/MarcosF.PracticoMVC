@@ -1,0 +1,58 @@
+﻿@model PracticoMVC.Models.MarcaModelo
+
+@{
+    ViewBag.Title = "Registro de Marca";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (ViewBag.Message != null)
+        {
+            <div class="row" style="margin-top:2%;">
+                <div class="col-md-8">
+                    <div class="@ViewBag.Class" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        @ViewBag.Message
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-warning" title="Volver atrás" style="position: absolute; right: 0;" onclick='window.location="@Url.Action("ConsultaMarcas","Marcas")"' type="button"><i class="fas fa-arrow-alt-circle-left"></i></button>
+                <br />
+                <br />
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4> Registro de Marcas </h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("RegistroMarca", "Marcas", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-control-label" })
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese el nombre de la marca...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } }) @*las propiedades style y onkeyup se usan para que todo el input se registre en mayúsculas*@
+                                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <input type="submit" style="margin-left:45%" class="btn btn-primary btn-success" name="Registrar" id="Registrar" value="Registrar" />
+                            </div>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
