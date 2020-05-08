@@ -11,9 +11,6 @@ namespace PracticoMVC.Models
 {
     public class ProductoModelo
     {
-        private const int V = 0;
-        private const int V1 = 1;
-
         public int Codigo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]

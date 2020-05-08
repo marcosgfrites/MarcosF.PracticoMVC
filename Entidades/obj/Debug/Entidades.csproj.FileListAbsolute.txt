@@ -115,3 +115,4 @@ D:\Marcos\Documents\GitHub\MarcosF.PracticoMVC\Entidades\obj\Debug\Entidades.csp
 D:\Marcos\Documents\GitHub\MarcosF.PracticoMVC\Entidades\obj\Debug\Entidades.csproj.CopyComplete
 D:\Marcos\Documents\GitHub\MarcosF.PracticoMVC\Entidades\obj\Debug\Entidades.dll
 D:\Marcos\Documents\GitHub\MarcosF.PracticoMVC\Entidades\obj\Debug\Entidades.pdb
+D:\Marcos\Documents\GitHub\MarcosF.PracticoMVC\Entidades\obj\Debug\Entidades.csprojAssemblyReference.cache

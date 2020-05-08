@@ -77,13 +77,13 @@ namespace AccesoDatos
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
             int edita = con.Execute("UPDATE Marcas SET Nombre=@Nombre WHERE Id=@Id",
                 new { Id = idMarca, Nombre = nombreNuevo});
-            if (edita > 0) //si la cantidad es mayor a 0, significa que se eliminó
+            if (edita > 0) //si la cantidad es mayor a 0, significa que se modificó
             {
-                return true; //si se eliminó, devuelve true
+                return true; //si se modificó, devuelve true
             }
             else
             {
-                return false; //si no se pudo eliminar, devuelve false
+                return false; //si no se pudo modificar, devuelve false
             }
         }
     }

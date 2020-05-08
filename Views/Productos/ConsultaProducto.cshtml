@@ -53,7 +53,7 @@
                             <td>$ @prod.PrecioUnitario </td>
                             <td><img align="middle" style="width:auto;height:auto" src="@prod.UrlImange" alt="@prod.Nombre"></td>
                             <td>
-                                <button title="Editar" class="btn btn-primary btn-info" onclick='window.location="@Url.Action("EditaProducto","Productos",new { codigo = prod.Codigo })"' type="button" name="Editar" id="Editar"><i class="fas fa-edit"></i></button>
+                                <button title="Editar" class="btn btn-primary btn-info" onclick='window.location="@Url.Action("EditarProducto","Productos",new { codigo = prod.Codigo })"' type="button" name="Editar" id="Editar"><i class="fas fa-edit"></i></button>
                                 <button title="Eliminar" class="btn btn-primary btn-danger" onclick='window.location="@Url.Action("EliminaProducto","Productos",new { codigo = prod.Codigo })"' type="button" name="Eliminar" id="Elimiar"><i class="fas fa-crosshairs"></i></button>
                             </td>
                         </tr>

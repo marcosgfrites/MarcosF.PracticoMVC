@@ -45,9 +45,15 @@ namespace PracticoMVC.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistroUsuario(UsuarioModelo nuevo)
+        public ActionResult RegistroUsuario(UsuarioModelo modelo)
         {
-            return View();
+            RolesQuerys rq = new RolesQuerys();
+            List<Roles> roles = new List<Roles>();
+            roles = rq.GetRoles();
+
+            ViewBag.ListaRoles = roles;
+
+            return View(modelo);
         }
     }
 }

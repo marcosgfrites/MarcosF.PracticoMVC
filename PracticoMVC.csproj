@@ -496,6 +496,7 @@
     <Content Include="Views\Usuarios\ConsultaUsuarios.cshtml" />
     <Content Include="Views\Usuarios\RegistroUsuario.cshtml" />
     <Content Include="Views\Productos\EliminaProducto.cshtml" />
+    <Content Include="Views\Productos\EditarProducto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

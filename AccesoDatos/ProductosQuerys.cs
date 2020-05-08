@@ -6,6 +6,7 @@ using System.Web;
 using Dapper;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Security.Policy;
 
 namespace AccesoDatos
 {
@@ -85,6 +86,21 @@ namespace AccesoDatos
             else
             {
                 return false; //si no se pudo eliminar, devuelve false
+            }
+        }
+
+        public bool UpdateProducto(int codigo, string nombre, string descripcion, int idMarca, decimal precioUnitario, int activo, string urlImange)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int edita = con.Execute("UPDATE Productos SET Nombre=@Nombre,Descripcion=@Descripcion,IdMarca=@IdMarca,PrecioUnitario=@PrecioUnitario,Activo=@Activo,UrlImange=@UrlImange WHERE Codigo=@Codigo",
+                new { Codigo = codigo, Nombre = nombre, Descripcion = descripcion, IdMarca = idMarca, PrecioUnitario = precioUnitario, Activo = activo, UrlImange = urlImange });
+            if (edita > 0) //si la cantidad es mayor a 0, significa que se modificó
+            {
+                return true; //si se modificó, devuelve true
+            }
+            else
+            {
+                return false; //si no se pudo modificar, devuelve false
             }
         }
     }

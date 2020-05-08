@@ -1,7 +1,7 @@
 ﻿@model PracticoMVC.Models.ProductoModelo
 
 @{
-    ViewBag.Title = "Eliminación de Productos";
+    ViewBag.Title = "Edición de Productos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -27,10 +27,10 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h4> Eliminación de Productos </h4>
+                <h4> Edición de Productos </h4>
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("EliminaProducto", "Productos", FormMethod.Post))
+                @using (Html.BeginForm("EditarProducto", "Productos", FormMethod.Post))
                 {
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
@@ -40,7 +40,7 @@
                                 @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @name = "codigo", @readonly = "readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse el código de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse el código de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
                                 @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                                 @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse el nombre de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Aquí debe autocompletarse el nombre de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
                                 @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                                 @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse la descripción de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", @placeholder = "Aquí debe autocompletarse la descripción de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
                                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -70,7 +70,8 @@
                                 @Html.LabelFor(model => model.IdMarca, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                <select name="IdMarca" id="IdMarca" class="form-control" readonly="readonly">
+                                <select name="IdMarca" id="IdMarca" class="form-control">
+                                    <option value="">SELECCIONE UNA MARCA...</option>
                                     @if (ViewBag.Exito != null)  //si fuese null, significa que los datos deben completarse. Sino, significa que ya interactuamos con la app y se obtuvo algún resultado
                                     {
                                         <option value="">AQUÍ DEBE AUTOCOMPLETARSE LA MARCA DE PRODUCTO...</option>
@@ -80,6 +81,10 @@
                                         foreach (var marca in ViewBag.Lista)
                                         {
                                             if (Model.IdMarca == marca.Id)
+                                            {
+                                                <option value="@marca.Id" selected>@marca.Nombre</option>
+                                            }
+                                            else
                                             {
                                                 <option value="@marca.Id">@marca.Nombre</option>
                                             }
@@ -95,7 +100,8 @@
                                 @Html.LabelFor(model => model.Activo, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                <select name="Activo" id="Activo" class="form-control" readonly="readonly">
+                                <select name="Activo" id="Activo" class="form-control">
+                                    <option value="">SELECCIONE SU ESTADO...</option>
                                     @if (ViewBag.Exito != null) //si fuese null, significa que los datos deben completarse. Sino, significa que ya interactuamos con la app y se obtuvo algún resultado
                                     {
                                         <option value="">AQUÍ DEBE AUTOCOMPLETARSE EL ESTADO DE PRODUCTO...</option>
@@ -104,13 +110,15 @@
                                     {
                                         if (Model.Activo == 1)
                                         {
-                                            <option value="1">HABILITADO</option>
+                                            <option value="1" selected>HABILITADO</option>
+                                            <option value="0">DESHABILITADO</option>
                                         }
                                         else
                                         {
                                             if (Model.Activo == 0)
                                             {
-                                                <option value="0">DESHABILITADO</option>
+                                                <option value="1">HABILITADO</option>
+                                                <option value="0" selected>DESHABILITADO</option>
                                             }
                                         }
                                     }
@@ -124,7 +132,14 @@
                                 @Html.LabelFor(model => model.PrecioUnitario, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.PrecioUnitario, new { htmlAttributes = new { @type = "number", @Value = Model.PrecioUnitario, @readonly ="readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse el precio de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @if (ViewBag.Exito != null)
+                                {
+                                    @Html.EditorFor(model => model.PrecioUnitario, new { htmlAttributes = new { @type = "number", @class = "form-control", @placeholder = "Aquí debe autocompletarse el precio unitario de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                }
+                                else
+                                {
+                                    @Html.EditorFor(model => model.PrecioUnitario, new { htmlAttributes = new { @type = "number", @Value = Model.PrecioUnitario, @class = "form-control", @placeholder = "Aquí debe autocompletarse el precio unitario de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                }
                                 @Html.ValidationMessageFor(model => model.PrecioUnitario, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -134,13 +149,13 @@
                                 @Html.LabelFor(model => model.UrlImange, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.UrlImange, new { htmlAttributes = new { @readonly = "readonly", @type = "url", @class = "form-control", @placeholder = "Aquí debe autocompletarse la url de imagen de producto...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.EditorFor(model => model.UrlImange, new { htmlAttributes = new { @type = "url", @class = "form-control", @placeholder = "Aquí debe autocompletarse la URL de imagen de producto..." } })
                             </div>
                         </div>
                         <br />
                         <div class="row form-group">
                             <div class="col-lg-12">
-                                <input type="submit" style="margin-left:45%" class="btn btn-primary btn-danger" name="Eliminar" id="Eliminar" value="Eliminar" />
+                                <input type="submit" style="margin-left:45%" class="btn btn-primary" name="Modificar" id="Modificar" value="Modificar" />
                             </div>
                         </div>
                     </form>

@@ -173,6 +173,7 @@ namespace PracticoMVC.Controllers
             }
         }
 
+        //preparo el formulario para la modificación
         [HttpGet]
         public ActionResult EditarMarca(int codigo = 0)
         {
@@ -192,6 +193,7 @@ namespace PracticoMVC.Controllers
             return View(model);
         }
 
+        //valido el formulario y procedo con la modificación
         [HttpPost]
         public ActionResult EditarMarca(MarcaModelo modelo)
         {

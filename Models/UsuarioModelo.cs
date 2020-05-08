@@ -2,43 +2,54 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.Linq;
 using System.Web;
+using System.Web.ModelBinding;
+using System.Web.Services.Protocols;
 
 namespace PracticoMVC.Models
 {
     public class UsuarioModelo
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [DisplayName("Código")]
-        private int Id { get; set; }
+        public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(5, ErrorMessage = "El campo {0} tiene un máximo permitido de {1} caracteres")]
         [DisplayName("Código de Rol")]
-        private string IdRol { get; set; }
+        public string IdRol { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(10, ErrorMessage = "El campo {0} tiene un máximo permitido de {1} caracteres")]
         [DisplayName("Usuario")]
-        private string Usuario { get; set; }
+        public string Usuario { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(70, ErrorMessage = "El campo {0} tiene un máximo permitido de {1} caracteres")]
         [DisplayName("Nombre")]
-        private string Nombre { get; set; }
+        public string Nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [StringLength(70, ErrorMessage = "El campo {0} tiene un máximo permitido de {1} caracteres")]
         [DisplayName("Apellido")]
-        private string Apellido { get; set; }
+        public string Apellido { get; set; }
 
-        [Required]
-        [StringLength(255, ErrorMessage = "El campo {0} tiene un máximo permitido de {1} caracteres")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [StringLength(16, MinimumLength = 8,ErrorMessage = "El campo {0} tiene un mínimo permitido de {2} caracteres y un máximo de {1} caracteres")]
+        [DataType(DataType.Password)]
         [DisplayName("Password")]
-        private string Password { get; set; }
+        public string Password { get; set; }
 
-        [Required]
-        private int Activo { get; set; }
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        [StringLength(16, MinimumLength = 8, ErrorMessage = "El campo {0} tiene un mínimo permitido de {2} caracteres y un máximo de {1} caracteres")]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        [DisplayName("Confirmación de Password")]
+        public string RePassword { get; set; }
+
+        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        public int Activo { get; set; }
     }
 }

@@ -185,12 +185,16 @@ namespace PracticoMVC.Controllers
                         exito = 1;
                         ViewBag.Class = "alert alert-success";
                         ViewBag.Message = "Producto eliminado correctamente!";
+                        ViewBag.Exito = 1;
+
                     }
                     else //si no se pudo eliminar, el error está en el método o la conexión a la DB
                     {
                         exito = 0;
                         ViewBag.Class = "alert alert-danger";
                         ViewBag.Message = "Oops! Algo ha ocurrido!";
+                        ViewBag.Exito = 0;
+
                     }
 
                 }
@@ -237,5 +241,125 @@ namespace PracticoMVC.Controllers
             }
         }
 
+        //preparo el formulario para editar
+        [HttpGet]
+        public ActionResult EditarProducto(int codigo = 0)
+        {
+            ProductoModelo model = new ProductoModelo();
+            Productos entidad = new Productos();
+            List<Productos> datosProducto = new List<Productos>();
+            entidad.Codigo = codigo;
+            ProductosQuerys pq = new ProductosQuerys();
+            datosProducto = pq.ProductoPorCodigo(entidad.Codigo);
+
+            MarcasQuerys mq = new MarcasQuerys();
+            List<Marcas> marcas = new List<Marcas>();
+            marcas = mq.GetMarcas();
+            ViewBag.Lista = marcas;
+
+            foreach (var datos in datosProducto)
+            {
+                model.Codigo = datos.Codigo;
+                model.Nombre = datos.Nombre;
+                model.Descripcion = datos.Descripcion;
+                model.IdMarca = datos.IdMarca;
+
+                ViewBag.MarcaSeleccionada = model.IdMarca;
+
+                model.PrecioUnitario = datos.PrecioUnitario;
+                model.Activo = datos.Activo;
+                if (string.IsNullOrEmpty(datos.UrlImange))
+                {
+                    model.UrlImange = "Este producto no tiene URL, de imagen, asociada.";
+                }
+                else
+                {
+                    model.UrlImange = datos.UrlImange;
+                }
+            }
+
+            return View(model);
+        }
+
+        //valido el formulario para proceder con la modificación
+        [HttpPost]
+        public ActionResult EditarProducto(ProductoModelo modelo)
+        {
+            int exito = 2; // es el valor cuando el modelo no es valido
+            
+            MarcasQuerys mq = new MarcasQuerys();
+
+            if (ModelState.IsValid) //si se cumplen todas las validaciones
+            {
+                try
+                {
+                    Productos entidad = new Productos();
+                    ProductosQuerys pq = new ProductosQuerys();
+                    entidad.Codigo = modelo.Codigo;
+                    entidad.Nombre = modelo.Nombre;
+                    entidad.Descripcion = modelo.Descripcion;
+                    entidad.IdMarca = modelo.IdMarca;
+                    entidad.PrecioUnitario = modelo.PrecioUnitario;
+                    entidad.Activo = modelo.Activo;
+                    entidad.UrlImange = modelo.UrlImange;
+                    var obj = pq.UpdateProducto(entidad.Codigo, entidad.Nombre, entidad.Descripcion, entidad.IdMarca, entidad.PrecioUnitario, entidad.Activo, entidad.UrlImange);
+                    if (obj == true)
+                    {
+                        exito = 1;
+                        ViewBag.Class = "alert alert-success";
+                        ViewBag.Message = "Producto actualizado correctamente!";
+                        ViewBag.Exito = 1;
+                    }
+                    else //si no se pudo modificar, el error está en el método o la conexión a la DB
+                    {
+                        exito = 0;
+                        ViewBag.Class = "alert alert-danger";
+                        ViewBag.Message = "Oops! Algo ha ocurrido!";
+                        ViewBag.Exito = 0;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            //manejo la vista, según el valor de la variable exito
+            if (exito == 1)
+            {
+                ModelState.Clear();
+
+                List<Marcas> marcas = new List<Marcas>();
+                marcas = mq.GetMarcas();
+                ViewBag.Lista = marcas;
+
+                return View();
+            }
+            else
+            {
+                if (exito == 0)
+                {
+                    ModelState.Clear();
+
+                    List<Marcas> marcas = new List<Marcas>();
+                    marcas = mq.GetMarcas();
+                    ViewBag.Lista = marcas;
+
+                    return View();
+                }
+                else
+                {
+                    List<Marcas> marcas = new List<Marcas>();
+                    marcas = mq.GetMarcas();
+                    ViewBag.Lista = marcas;
+
+                    ViewBag.Class = "alert alert-warning";
+                    ViewBag.Message = "Faltan datos por ingresar! Controle todos los campos que son obligatorios.";
+
+                    return View(modelo);
+                }
+            }
+        }
     }
 }
