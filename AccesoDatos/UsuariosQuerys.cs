@@ -30,6 +30,45 @@ namespace AccesoDatos
             }
         }
 
+        /**VOY A PROBAR NAMESPACE: SYSTEM.WEB.HELPERS.CRYPTO.HASSPASSWORD(string)**/
+        public static string HashConSalt(string password)
+        {
+            byte[] salt;
+            byte[] buffer;
+            if(password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 16, 1000))
+            {
+                salt = bytes.Salt;
+                buffer = bytes.GetBytes(32);
+            }
+            byte[] dst = new byte[49];
+            Buffer.BlockCopy(salt, 0, dst, 1, 16);
+            Buffer.BlockCopy(buffer, 0, dst, 17, 32);
+            return Convert.ToBase64String(dst);
+        }
+
+        public bool InsertUsuario2(Usuarios usuario)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+
+            string passwordSalt = HashConSalt(usuario.Password);
+
+            int nuevo = con.Execute("INSERT INTO Usuarios(IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo) VALUES(@IdRol,@Usuario,@Nombre,@Apellido,@Password,@PasswordSalt,@FechaCreacion,@Activo)",
+                new { IdRol = usuario.IdRol, Usuario = usuario.Usuario, Nombre = usuario.Nombre, Apellido = usuario.Apellido, Password = usuario.Password, PasswordSalt = passwordSalt, FechaCreacion = DateTime.Now, Activo = usuario.Activo });
+            if (nuevo > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /**FIN DE LA PRUEBA**/
+
         public bool InsertUsuario(Usuarios usuario)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
@@ -38,7 +77,6 @@ namespace AccesoDatos
             CrearPasswordHash(usuario.Password, out passwordHash, out passwordSalt);
             string pass_hash = Convert.ToBase64String(passwordHash);
             string pass_salt = Convert.ToBase64String(passwordSalt);
-
 
             int nuevo = con.Execute("INSERT INTO Usuarios(IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo) VALUES(@IdRol,@Usuario,@Nombre,@Apellido,@Password,@PasswordSalt,@FechaCreacion,@Activo)",
                 new { IdRol = usuario.IdRol, Usuario = usuario.Usuario, Nombre = usuario.Nombre, Apellido = usuario.Apellido, Password = usuario.Password, PasswordSalt = passwordSalt, FechaCreacion = DateTime.Now, Activo = usuario.Activo });

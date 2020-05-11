@@ -73,7 +73,7 @@ namespace PracticoMVC.Controllers
                     }
                     else //si no existe, continuo con la inserción
                     {
-                        var obj = uq.InsertUsuario(entidad); //inserto el producto
+                        var obj = uq.InsertUsuario2(entidad); //inserto el producto
                         if (obj == true) //si se pudo insertar
                         {
                             exito = 1;
