@@ -51,5 +51,20 @@ namespace AccesoDatos
                 return false;
             }
         }
+
+        public bool ExisteUsuario(string usuario) //comprueba si existe el usuario devolviendo la cantidad de veces que existe
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            var existe = con.Query<int>("SELECT COUNT(Usuario) FROM Usuarios WHERE Usuario='" + usuario + "'");
+            if (existe.First() > 0) //si la cantidad es mayor a 0, significa que si existe
+            {
+                return true; //si existe, devuelve true
+            }
+            else
+            {
+                return false; //si no existe, devuelve false
+            }
+        }
+
     }
 }
