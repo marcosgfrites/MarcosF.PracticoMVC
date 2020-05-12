@@ -32,6 +32,7 @@ namespace PracticoMVC.Controllers
             return View();
         }
 
+        // preparo el formulario para el registro
         [HttpGet]
         public ActionResult RegistroUsuario()
         {
@@ -73,7 +74,7 @@ namespace PracticoMVC.Controllers
                     }
                     else //si no existe, continuo con la inserción
                     {
-                        var obj = uq.InsertUsuario2(entidad); //inserto el producto
+                        var obj = uq.InsertUsuario(entidad); //inserto el producto
                         if (obj == true) //si se pudo insertar
                         {
                             exito = 1;
@@ -124,6 +125,112 @@ namespace PracticoMVC.Controllers
                     List<Roles> roles = new List<Roles>();
                     roles = rq.GetRoles();
 
+                    ViewBag.ListaRoles = roles;
+
+                    ViewBag.Class = "alert alert-warning";
+                    ViewBag.Message = "Faltan datos por ingresar! Controle todos los campos que son obligatorios.";
+
+                    return View(modelo);
+                }
+            }
+        }
+
+        // preparo el formulario para eliminar
+        [HttpGet]
+        public ActionResult EliminaUsuario(int codigo = 0)
+        {
+            UsuarioModeloEliminar model = new UsuarioModeloEliminar();
+            Usuarios entidad = new Usuarios();
+            List<Usuarios> datosUsuario = new List<Usuarios>();
+            entidad.Id = codigo;
+            UsuariosQuerys uq = new UsuariosQuerys();
+            datosUsuario = uq.UsuarioPorCodigo(entidad.Id);
+
+            RolesQuerys rq = new RolesQuerys();
+            List<Roles> roles = new List<Roles>();
+            roles = rq.GetRoles();
+            ViewBag.ListaRoles = roles;
+
+            foreach (var datos in datosUsuario)
+            {
+                model.Id = datos.Id;
+                model.IdRol = datos.IdRol;
+                model.Usuario = datos.Usuario;
+                model.Nombre = datos.Nombre;
+                model.Apellido = datos.Apellido;
+                model.Activo = datos.Activo;
+            }
+
+            return View(model);
+        }
+
+        // valido el formulario y procedo a la eliminacion
+        [HttpPost]
+        public ActionResult EliminaUsuario(UsuarioModeloEliminar modelo)
+        {
+            int exito = 2; // es el valor cuando el modelo no es valido
+
+            RolesQuerys rq = new RolesQuerys();
+
+            if (ModelState.IsValid) //si se cumplen todas las validaciones
+            {
+                try
+                {
+                    UsuariosQuerys uq = new UsuariosQuerys();
+                    Usuarios entidad = new Usuarios();
+                    entidad.Id = modelo.Id;
+                    var obj = uq.DeleteUsuario(entidad.Id);
+                    if (obj == true)
+                    {
+                        exito = 1;
+                        ViewBag.Class = "alert alert-success";
+                        ViewBag.Message = "Usuario eliminado correctamente!";
+                        ViewBag.Exito = 1;
+
+                    }
+                    else //si no se pudo eliminar, el error está en el método o la conexión a la DB
+                    {
+                        exito = 0;
+                        ViewBag.Class = "alert alert-danger";
+                        ViewBag.Message = "Oops! Algo ha ocurrido!";
+                        ViewBag.Exito = 0;
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            //manejo la vista, según el valor de la variable exito
+            if (exito == 1)
+            {
+                ModelState.Clear();
+
+                List<Roles> roles = new List<Roles>();
+                roles = rq.GetRoles();
+                ViewBag.ListaRoles = roles;
+
+                return View();
+            }
+            else
+            {
+                if (exito == 0)
+                {
+                    ModelState.Clear();
+
+                    List<Roles> roles = new List<Roles>();
+                    roles = rq.GetRoles();
+                    ViewBag.ListaRoles = roles;
+
+                    return View();
+                }
+                else
+                {
+                    List<Roles> roles = new List<Roles>();
+                    roles = rq.GetRoles();
                     ViewBag.ListaRoles = roles;
 
                     ViewBag.Class = "alert alert-warning";

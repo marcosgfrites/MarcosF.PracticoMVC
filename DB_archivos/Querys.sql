@@ -18,3 +18,7 @@ SELECT TOP 1 * FROM PRODUCTOS ORDER BY PrecioUnitario DESC
 SELECT Id,Nombre FROM Marcas ORDER BY Nombre ASC
 
 SELECT COUNT(Nombre) FROM Marcas WHERE Nombre='AMD'
+
+SELECT * FROM Usuarios
+
+DELETE FROM Usuarios WHERE Id >= 4

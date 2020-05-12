@@ -21,16 +21,39 @@ namespace AccesoDatos
             return listado;
         }
 
-        private void CrearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var cripto = new HMACSHA512())
-            {
-                passwordHash = cripto.Key;
-                passwordSalt = cripto.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
+        /**INICIO DEL MÉTODO ORIGINAL DE INSERCIÓN - ESTA SECCIÓN SE COMENTA PUESTO QUE AL UTILIZARLO EN LA DB NOS INSERTA SIMBOLOS CHINOS EN EL SALT O AL MENOS ES LO QUE SE VE**/
+        //private void CrearPasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        //{
+        //    using (var cripto = new HMACSHA512())
+        //    {
+        //        passwordHash = cripto.Key;
+        //        passwordSalt = cripto.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+        //    }
+        //}
 
-        /**VOY A PROBAR NAMESPACE: SYSTEM.WEB.HELPERS.CRYPTO.HASSPASSWORD(string)**/
+        //public bool InsertUsuario(Usuarios usuario)
+        //{
+        //    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+
+        //    byte[] passwordHash, passwordSalt;
+        //    CrearPasswordHash(usuario.Password, out passwordHash, out passwordSalt);
+        //    string pass_hash = Convert.ToBase64String(passwordHash);
+        //    string pass_salt = Convert.ToBase64String(passwordSalt);
+
+        //    int nuevo = con.Execute("INSERT INTO Usuarios(IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo) VALUES(@IdRol,@Usuario,@Nombre,@Apellido,@Password,@PasswordSalt,@FechaCreacion,@Activo)",
+        //        new { IdRol = usuario.IdRol, Usuario = usuario.Usuario, Nombre = usuario.Nombre, Apellido = usuario.Apellido, Password = usuario.Password, PasswordSalt = passwordSalt, FechaCreacion = DateTime.Now, Activo = usuario.Activo });
+        //    if (nuevo > 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
+        /**FIN DEL MÉTODO ORIGINAL DE INSERCIÓN**/
+
+        /**PRUEBA 2 DE INSERCION DE USUARIOS - GENERACION DE HASH**/
         public static string HashConSalt(string password)
         {
             byte[] salt;
@@ -39,7 +62,7 @@ namespace AccesoDatos
             {
                 throw new ArgumentNullException(nameof(password));
             }
-            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 16, 1000))
+            using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, 16, 1000, HashAlgorithmName.SHA512))
             {
                 salt = bytes.Salt;
                 buffer = bytes.GetBytes(32);
@@ -50,7 +73,7 @@ namespace AccesoDatos
             return Convert.ToBase64String(dst);
         }
 
-        public bool InsertUsuario2(Usuarios usuario)
+        public bool InsertUsuario(Usuarios usuario)
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
 
@@ -67,28 +90,7 @@ namespace AccesoDatos
                 return false;
             }
         }
-        /**FIN DE LA PRUEBA**/
-
-        public bool InsertUsuario(Usuarios usuario)
-        {
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
-
-            byte[] passwordHash, passwordSalt;
-            CrearPasswordHash(usuario.Password, out passwordHash, out passwordSalt);
-            string pass_hash = Convert.ToBase64String(passwordHash);
-            string pass_salt = Convert.ToBase64String(passwordSalt);
-
-            int nuevo = con.Execute("INSERT INTO Usuarios(IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo) VALUES(@IdRol,@Usuario,@Nombre,@Apellido,@Password,@PasswordSalt,@FechaCreacion,@Activo)",
-                new { IdRol = usuario.IdRol, Usuario = usuario.Usuario, Nombre = usuario.Nombre, Apellido = usuario.Apellido, Password = usuario.Password, PasswordSalt = passwordSalt, FechaCreacion = DateTime.Now, Activo = usuario.Activo });
-            if (nuevo > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        /**FIN DE LA PRUEBA 2 DE INSERCIÓN**/
 
         public bool ExisteUsuario(string usuario) //comprueba si existe el usuario devolviendo la cantidad de veces que existe
         {
@@ -101,6 +103,30 @@ namespace AccesoDatos
             else
             {
                 return false; //si no existe, devuelve false
+            }
+        }
+
+        public List<Usuarios> UsuarioPorCodigo(int id)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            List<Usuarios> datosUsuario = new List<Usuarios>();
+            datosUsuario = con.Query<Usuarios>("SELECT Id,IdRol,Usuario,Nombre,Apellido,Password,FechaCreacion,Activo FROM Usuarios WHERE Id=@Id",
+                new { Id = id }).ToList();
+            return datosUsuario;
+        }
+
+        public bool DeleteUsuario(int id) //elimina un usuario de acuerdo al numero de Id
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int baja = con.Execute("DELETE FROM Usuarios WHERE Id=@Id",
+                new { Id = id });
+            if (baja > 0) //si la cantidad es mayor a 0, significa que se eliminó
+            {
+                return true; //si se eliminó, devuelve true
+            }
+            else
+            {
+                return false; //si no se pudo eliminar, devuelve false
             }
         }
 
