@@ -240,5 +240,35 @@ namespace PracticoMVC.Controllers
                 }
             }
         }
+
+        // preparo el formulario para editar
+        [HttpGet]
+        public ActionResult EditaUsuario(int codigo = 0)
+        {
+            UsuarioModeloEditar model = new UsuarioModeloEditar();
+            Usuarios entidad = new Usuarios();
+            List<Usuarios> datosUsuario = new List<Usuarios>();
+            entidad.Id = codigo;
+            UsuariosQuerys uq = new UsuariosQuerys();
+            datosUsuario = uq.UsuarioPorCodigo(entidad.Id);
+
+            RolesQuerys rq = new RolesQuerys();
+            List<Roles> roles = new List<Roles>();
+            roles = rq.GetRoles();
+            ViewBag.ListaRoles = roles;
+
+            foreach (var datos in datosUsuario)
+            {
+                model.Id = datos.Id;
+                model.IdRol = datos.IdRol;
+                model.Usuario = datos.Usuario;
+                model.Nombre = datos.Nombre;
+                model.Apellido = datos.Apellido;
+                model.Activo = datos.Activo;
+            }
+
+            return View(model);
+        }
+
     }
 }

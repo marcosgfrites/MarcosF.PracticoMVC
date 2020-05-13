@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-12 col-md-9">
                                 <select name="IdRol" id="IdRol" class="form-control">
-                                    <option value="">SELECCIONE UN ROL...</option>
+                                    <option value="">SELECCIONE UN ROL DE USUARIO...</option>
                                     @foreach (var roles in ViewBag.ListaRoles)
                                     {
                                         <option value="@roles.Id">@roles.Descripcion</option>
@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-12 col-md-9">
                                 <select name="Activo" id="Activo" class="form-control">
-                                    <option value="">SELECCIONE SU ESTADO...</option>
+                                    <option value="">SELECCIONE EL ESTADO DE USUARIO...</option>
                                     <option value="1">HABILITADO</option>
                                     <option value="0">DESHABILITADO</option>
                                 </select>
