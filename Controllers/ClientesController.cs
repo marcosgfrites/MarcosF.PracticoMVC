@@ -30,5 +30,19 @@ namespace PracticoMVC.Controllers
 
             return View();
         }
+
+        // preparo el formulario para el registro
+        [HttpGet]
+        public ActionResult RegistroCliente()
+        {
+            UsuariosQuerys uq = new UsuariosQuerys();
+            List<Usuarios> usuarios = new List<Usuarios>();
+            usuarios = uq.GetUsuarios();
+
+            ViewBag.ListaUsuarios = usuarios;
+
+            return View();
+        }
+
     }
 }

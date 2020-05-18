@@ -1,0 +1,75 @@
+﻿@model PracticoMVC.Models.ClienteModelo
+
+@{
+    ViewBag.Title = "Registro de Clientes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (ViewBag.Message != null)
+        {
+            <div class="row" style="margin-top:2%;">
+                <div class="col-md-8">
+                    <div class="@ViewBag.Class" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        @ViewBag.Message
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <button class="btn btn-primary btn-warning" title="Volver atrás" style="position: absolute; right: 0;" onclick='window.location="@Url.Action("ConsultaClientes","Clientes")"' type="button"><i class="fas fa-arrow-alt-circle-left"></i></button>
+                <br />
+                <br />
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4> Registro de Clientes </h4>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("RegistroCliente", "Clientes", FormMethod.Post))
+                {
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.RazonSocial, htmlAttributes: new { @class = "form-control-label" })
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese la Razón Social...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.ValidationMessageFor(model => model.RazonSocial, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
+                                @Html.LabelFor(model => model.IdUsuario, htmlAttributes: new { @class = "form-control-label" })
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <select name="IdRol" id="IdRol" class="form-control">
+                                    <option value="">SELECCIONE UN USUARIO...</option>
+                                    @foreach (var usuario in ViewBag.ListaUsuarios)
+                                    {
+                                        <option value="@usuario.Id">@usuario.Usuario (@usuario.Apellido, @usuario.Nombre)</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="row form-group">
+                            <div class="col-lg-12">
+                                <input type="submit" style="margin-left:45%" class="btn btn-primary btn-success" name="Registrar" id="Registrar" value="Registrar" />
+                            </div>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>
