@@ -499,10 +499,10 @@
     <Content Include="Views\Productos\EditarProducto.cshtml" />
     <Content Include="Views\Usuarios\EliminaUsuario.cshtml" />
     <Content Include="Views\Usuarios\EditaUsuario.cshtml" />
+    <Content Include="Views\Clientes\ConsultaClientes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Clientes\" />
     <Folder Include="Views\Pedidos\" />
   </ItemGroup>
   <ItemGroup>
