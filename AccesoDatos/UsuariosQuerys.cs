@@ -16,7 +16,7 @@ namespace AccesoDatos
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
             List<Usuarios> listado = new List<Usuarios>();
-            listado = con.Query<Usuarios>("SELECT Id,IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo FROM Usuarios WHERE Activo=1 ORDER BY FechaCreacion DESC").ToList();
+            listado = con.Query<Usuarios>("SELECT Id,IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo FROM Usuarios WHERE Activo=1 ORDER BY Nombre ASC, Apellido ASC").ToList();
 
             return listado;
         }
@@ -130,5 +130,19 @@ namespace AccesoDatos
             }
         }
 
+        public bool UpdateUsuario(int id, string idRol, string usuario, string nombre, string apellido, int activo)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int edita = con.Execute("UPDATE Usuarios SET IdRol=@IdRol,Usuario=@Usuario,Nombre=@Nombre,Apellido=@Apellido,Activo=@Activo WHERE Id=@Id",
+                new { Id = id, IdRol = idRol, Usuario = usuario , Nombre = nombre, Apellido = apellido, Activo = activo });
+            if (edita > 0) //si la cantidad es mayor a 0, significa que se modificó
+            {
+                return true; //si se modificó, devuelve true
+            }
+            else
+            {
+                return false; //si no se pudo modificar, devuelve false
+            }
+        }
     }
 }

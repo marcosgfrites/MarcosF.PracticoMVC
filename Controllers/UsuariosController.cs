@@ -270,5 +270,84 @@ namespace PracticoMVC.Controllers
             return View(model);
         }
 
+        //valido el formulario para proceder con la modificación
+        [HttpPost]
+        public ActionResult EditaUsuario(UsuarioModeloEditar modelo)
+        {
+            int exito = 2; // es el valor cuando el modelo no es valido
+
+            RolesQuerys rq = new RolesQuerys();
+
+            if (ModelState.IsValid) //si se cumplen todas las validaciones
+            {
+                try
+                {
+                    Usuarios entidad = new Usuarios();
+                    UsuariosQuerys uq = new UsuariosQuerys();
+                    entidad.Id = modelo.Id;
+                    entidad.IdRol = modelo.IdRol;
+                    entidad.Usuario = modelo.Usuario;
+                    entidad.Nombre = modelo.Nombre;
+                    entidad.Apellido = modelo.Apellido;
+                    entidad.Activo = modelo.Activo;
+                    var obj = uq.UpdateUsuario(entidad.Id, entidad.IdRol, entidad.Usuario, entidad.Nombre, entidad.Apellido, entidad.Activo);
+                    if (obj == true)
+                    {
+                        exito = 1;
+                        ViewBag.Class = "alert alert-success";
+                        ViewBag.Message = "Usuario actualizado correctamente!";
+                        ViewBag.Exito = 1;
+                    }
+                    else //si no se pudo modificar, el error está en el método o la conexión a la DB
+                    {
+                        exito = 0;
+                        ViewBag.Class = "alert alert-danger";
+                        ViewBag.Message = "Oops! Algo ha ocurrido!";
+                        ViewBag.Exito = 0;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+
+            //manejo la vista, según el valor de la variable exito
+            if (exito == 1)
+            {
+                ModelState.Clear();
+
+                List<Roles> roles = new List<Roles>();
+                roles = rq.GetRoles();
+                ViewBag.ListaRoles = roles;
+
+                return View();
+            }
+            else
+            {
+                if (exito == 0)
+                {
+                    ModelState.Clear();
+
+                    List<Roles> roles = new List<Roles>();
+                    roles = rq.GetRoles();
+                    ViewBag.ListaRoles = roles;
+
+                    return View();
+                }
+                else
+                {
+                    List<Roles> roles = new List<Roles>();
+                    roles = rq.GetRoles();
+                    ViewBag.ListaRoles = roles;
+
+                    ViewBag.Class = "alert alert-warning";
+                    ViewBag.Message = "Faltan datos por ingresar! Controle todos los campos que son obligatorios.";
+
+                    return View(modelo);
+                }
+            }
+        }
     }
 }

@@ -50,7 +50,7 @@
                                 @Html.LabelFor(model => model.IdRol, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                <select name="IdRol" id="IdRol" class="form-control" readonly="readonly">
+                                <select name="IdRol" id="IdRol" class="form-control">
                                     @if (ViewBag.Exito != null)  //si fuese null, significa que los datos deben completarse. Sino, significa que ya interactuamos con la app y se obtuvo algún resultado
                                     {
                                         <option value="">AQUÍ DEBE AUTOCOMPLETARSE EL ROL DE USUARIO...</option>
