@@ -14,7 +14,7 @@ namespace PracticoMVC.Models
         public int Codigo { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(100, ErrorMessage = "El campo {0} tiene un máximo permitido de {1} caracteres")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "El campo {0} tiene un mínimo permitido de {2} caracteres y un máximo de {1} caracteres")]
         [DisplayName("Razón Social")]
         public string RazonSocial { get; set; }
         

@@ -502,6 +502,8 @@
     <Content Include="Views\Usuarios\EditaUsuario.cshtml" />
     <Content Include="Views\Clientes\ConsultaClientes.cshtml" />
     <Content Include="Views\Clientes\RegistroCliente.cshtml" />
+    <Content Include="Views\Clientes\EliminaCliente.cshtml" />
+    <Content Include="Views\Clientes\EditaCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

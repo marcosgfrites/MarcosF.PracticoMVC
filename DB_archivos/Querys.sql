@@ -22,3 +22,7 @@ SELECT COUNT(Nombre) FROM Marcas WHERE Nombre='AMD'
 SELECT * FROM Usuarios
 
 DELETE FROM Usuarios WHERE Id >= 4
+
+SELECT * FROM Pedidos
+
+SELECT * FROM DetallesPedidos

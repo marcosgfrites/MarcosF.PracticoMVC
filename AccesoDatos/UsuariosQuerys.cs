@@ -16,7 +16,7 @@ namespace AccesoDatos
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
             List<Usuarios> listado = new List<Usuarios>();
-            listado = con.Query<Usuarios>("SELECT Id,IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo FROM Usuarios WHERE Activo=1 ORDER BY Nombre ASC, Apellido ASC").ToList();
+            listado = con.Query<Usuarios>("SELECT Id,IdRol,Usuario,Nombre,Apellido,Password,PasswordSalt,FechaCreacion,Activo FROM Usuarios WHERE Activo=1 ORDER BY Apellido ASC, Nombre ASC").ToList();
 
             return listado;
         }

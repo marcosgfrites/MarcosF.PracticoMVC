@@ -1,7 +1,7 @@
 ﻿@model PracticoMVC.Models.ClienteModelo
 
 @{
-    ViewBag.Title = "Registro de Clientes";
+    ViewBag.Title = "Eliminación de Clientes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -27,20 +27,30 @@
         </div>
         <div class="card">
             <div class="card-header">
-                <h4> Registro de Clientes </h4>
+                <h4> Eliminación de Clientes </h4>
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("RegistroCliente", "Clientes", FormMethod.Post))
+                @using (Html.BeginForm("EliminaCliente", "Clientes", FormMethod.Post))
                 {
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                         <br />
                         <div class="row form-group">
                             <div class="col col-md-3">
+                                @Html.LabelFor(model => model.Codigo, htmlAttributes: new { @class = "form-control-label" })
+                            </div>
+                            <div class="col-12 col-md-9">
+                                @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse la código de cliente...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row form-group">
+                            <div class="col col-md-3">
                                 @Html.LabelFor(model => model.RazonSocial, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @class = "form-control", @placeholder = "Ingrese la Razón Social...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
+                                @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control", @placeholder = "Aquí debe autocompletarse la Razón Social...", @style = "text-transform:uppercase;", @onkeyup = "javascript:this.value=this.value.toUpperCase()" } })
                                 @Html.ValidationMessageFor(model => model.RazonSocial, "", new { @class = "text-danger" })
                             </div>
                         </div>
@@ -50,11 +60,20 @@
                                 @Html.LabelFor(model => model.IdUsuario, htmlAttributes: new { @class = "form-control-label" })
                             </div>
                             <div class="col-12 col-md-9">
-                                <select name="IdUsuario" id="IdUsuario" class="form-control">
-                                    <option value="">SELECCIONE UN USUARIO...</option>
-                                    @foreach (var usuario in ViewBag.ListaUsuarios)
+                                <select name="IdUsuario" id="IdUsuario" class="form-control" readonly="readonly">
+                                    @if (ViewBag.Exito != null)  //si fuese null, significa que los datos deben completarse. Sino, significa que ya interactuamos con la app y se obtuvo algún resultado
                                     {
-                                        <option value="@usuario.Id">@usuario.Usuario (@usuario.Apellido, @usuario.Nombre)</option>
+                                        <option value="">AQUÍ DEBE AUTOCOMPLETARSE EL USUARIO...</option>
+                                    }
+                                    else
+                                    {
+                                        foreach (var usuarios in ViewBag.ListaUsuarios)
+                                        {
+                                            if (Model.IdUsuario == usuarios.Id)
+                                            {
+                                                <option value="@usuarios.Id">@usuarios.Usuario (@usuarios.Apellido, @usuarios.Nombre)</option>
+                                            }
+                                        }
                                     }
                                 </select>
                                 @Html.ValidationMessageFor(model => model.IdUsuario, "", new { @class = "text-danger" })
@@ -64,7 +83,7 @@
                         <br />
                         <div class="row form-group">
                             <div class="col-lg-12">
-                                <input type="submit" style="margin-left:45%" class="btn btn-primary btn-success" name="Registrar" id="Registrar" value="Registrar" />
+                                <input type="submit" style="margin-left:45%" class="btn btn-primary btn-danger" name="Eliminar" id="Eliminar" value="Eliminar" />
                             </div>
                         </div>
                     </form>

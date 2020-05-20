@@ -20,5 +20,72 @@ namespace AccesoDatos
             return listado;
         }
 
+        public bool ExisteCliente(string cliente) //comprueba si existe la razon social devolviendo la cantidad de veces que existe
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            var existe = con.Query<int>("SELECT COUNT(RazonSocial) FROM Clientes WHERE RazonSocial='" + cliente + "'");
+            if (existe.First() > 0) //si la cantidad es mayor a 0, significa que si existe
+            {
+                return true; //si existe, devuelve true
+            }
+            else
+            {
+                return false; //si no existe, devuelve false
+            }
+        }
+
+        public bool InsertCliente(Clientes cliente)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int nuevo = con.Execute("INSERT INTO Clientes(RazonSocial,FechaCreacion,IdUsuario) VALUES(@RazonSocial,@FechaCreacion,@IdUsuario)",
+                new { RazonSocial = cliente.RazonSocial, FechaCreacion = DateTime.Now, IdUsuario = cliente.IdUsuario });
+            if (nuevo > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public List<Clientes> ClientePorCodigo(int codigo)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            List<Clientes> datosCliente = new List<Clientes>();
+            datosCliente = con.Query<Clientes>("SELECT Codigo,RazonSocial,FechaCreacion,IdUsuario FROM Clientes WHERE Codigo=@Codigo",
+                new { Codigo = codigo }).ToList();
+            return datosCliente;
+        }
+
+        public bool DeleteCliente(int codigo) //elimina un cliente de acuerdo al numero de codigo
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int baja = con.Execute("DELETE FROM Clientes WHERE Codigo=@Codigo",
+                new { Codigo = codigo });
+            if (baja > 0) //si la cantidad es mayor a 0, significa que se eliminó
+            {
+                return true; //si se eliminó, devuelve true
+            }
+            else
+            {
+                return false; //si no se pudo eliminar, devuelve false
+            }
+        }
+
+        public bool UpdateCliente(int codigo, string razonSocial, int idUsuario)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            int edita = con.Execute("UPDATE Clientes SET RazonSocial=@RazonSocial, IdUsuario=@IdUsuario WHERE Codigo=@Codigo",
+                new { Codigo = codigo, RazonSocial = razonSocial, IdUsuario = idUsuario });
+            if (edita > 0) //si la cantidad es mayor a 0, significa que se modificó
+            {
+                return true; //si se modificó, devuelve true
+            }
+            else
+            {
+                return false; //si no se pudo modificar, devuelve false
+            }
+        }
     }
 }
