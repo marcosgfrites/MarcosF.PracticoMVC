@@ -1,0 +1,76 @@
+﻿@{int fila = 1; }
+
+@{
+    ViewBag.Title = "Pedidos - Selección de Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .miActionLink:hover {
+        color: white
+    }
+
+    .miActionLink {
+        color: white
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <input class="au-input au-input--xl" type="text" name="Cliente" id="Cliente" style="text-transform:uppercase" onkeyup = "javascript:this.value=this.value.toUpperCase()" placeholder="Buscar cliente por Razón Social/Nombre..." />
+        <button class="btn btn-default btn-secondary" title="Buscar cliente..." name="Buscar" id="Buscar" value="Buscar" type="submit">
+            <i class="fa fa-search"></i>
+        </button>
+        <br />
+        <br />
+        <div class="table-responsive">
+            <h4> Listado de Clientes </h4>
+            <hr />
+            <table class="table table-borderless table-striped table-earning">
+                <thead>
+                    <tr style="text-align: center;">
+                        <td> <b>#</b> </td>
+                        <td> <b>Código</b> </td>
+                        <td> <b>Razón Social</b> </td>
+                        <td> <b>Usuario</b> </td>
+                        <td> <b>Acción</b> </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.ListaClientes)
+                    {
+                        <tr style="text-align: center;">
+                            <td>@fila</td>
+                            <td>@item.Codigo </td>
+                            <td>@item.RazonSocial </td>
+                            @foreach (var usuario in ViewBag.ListaUsuarios)
+                            {
+                                if (item.IdUsuario == usuario.Id)
+                                {
+                                    <td>@usuario.Usuario</td>
+                                }
+                            }
+                            <td>
+                                <button title="Pedido" class="btn btn-primary btn-info" onclick='window.location="@Url.Action("RegistroPedido","Pedidos",new { codigo = item.Codigo })"' type="button" name="Editar" id="Editar"><i class="fas fa-box"></i></button>
+                            </td>
+                        </tr>
+                        fila++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <button class="btn btn-primary btn-warning" title="Ir Hacia Arriba" style="position: absolute; right: 0;" type="button" onclick="topFunction()"><i class="fas fa-arrow-alt-circle-up"></i></button>
+    </div>
+</div>
+
+<script>
+    function topFunction() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
+</script>

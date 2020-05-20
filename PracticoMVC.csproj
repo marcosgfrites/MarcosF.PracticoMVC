@@ -504,10 +504,10 @@
     <Content Include="Views\Clientes\RegistroCliente.cshtml" />
     <Content Include="Views\Clientes\EliminaCliente.cshtml" />
     <Content Include="Views\Clientes\EditaCliente.cshtml" />
+    <Content Include="Views\Pedidos\SelectCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Pedidos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
