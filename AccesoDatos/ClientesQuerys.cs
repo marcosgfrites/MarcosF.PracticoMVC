@@ -87,5 +87,13 @@ namespace AccesoDatos
                 return false; //si no se pudo modificar, devuelve false
             }
         }
+
+        public List<Clientes> ClientePorNombre(string nombre)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionPracticoMVC"].ConnectionString);
+            List<Clientes> datosCliente = new List<Clientes>();
+            datosCliente = con.Query<Clientes>("SELECT Codigo,RazonSocial,FechaCreacion,IdUsuario FROM Clientes WHERE RazonSocial LIKE '%" + nombre + "%'").ToList();
+            return datosCliente;
+        }
     }
 }

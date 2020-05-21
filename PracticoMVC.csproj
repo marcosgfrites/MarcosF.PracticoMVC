@@ -133,6 +133,7 @@
     </Compile>
     <Compile Include="Models\ClienteModelo.cs" />
     <Compile Include="Models\MarcaModelo.cs" />
+    <Compile Include="Models\PedidoModelo.cs" />
     <Compile Include="Models\ProductoModelo.cs" />
     <Compile Include="Models\RolModelo.cs" />
     <Compile Include="Models\UsuarioModelo.cs" />
@@ -505,6 +506,7 @@
     <Content Include="Views\Clientes\EliminaCliente.cshtml" />
     <Content Include="Views\Clientes\EditaCliente.cshtml" />
     <Content Include="Views\Pedidos\SelectCliente.cshtml" />
+    <Content Include="Views\Pedidos\RegistroPedido.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
